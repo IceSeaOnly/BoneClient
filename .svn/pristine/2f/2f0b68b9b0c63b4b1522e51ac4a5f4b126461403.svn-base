@@ -1,0 +1,119 @@
+package com.qdxiaogutou.boneclient.Activity;
+
+import android.content.Context;
+import android.content.Intent;
+import android.content.SharedPreferences;
+import android.support.v7.app.AppCompatActivity;
+import android.os.Bundle;
+import android.util.Log;
+import android.view.MotionEvent;
+import android.view.View;
+import android.webkit.WebView;
+import android.widget.AdapterView;
+import android.widget.GridView;
+import android.widget.Toast;
+
+import com.qdxiaogutou.boneclient.Adapter.IndexItemAdapter;
+import com.qdxiaogutou.boneclient.Common.SingleCallBack;
+import com.qdxiaogutou.boneclient.Common.ToastUtil;
+import com.qdxiaogutou.boneclient.Entity.IndexItemEntity;
+import com.qdxiaogutou.boneclient.R;
+
+import java.util.ArrayList;
+
+public class MainActivity extends AppCompatActivity {
+
+    private WebView weather_show;
+    private GridView index_gridview;
+    private IndexItemAdapter adapter;
+    private ArrayList<IndexItemEntity> items = new ArrayList<>();
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+        weather_show = (WebView) findViewById(R.id.weather_show);
+        index_gridview = (GridView) findViewById(R.id.index_gridview);
+        weather_show.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                return false;
+            }
+        });
+        weather_show.loadUrl("http://i.tianqi.com/index.php?c=code&id=55");
+        InitData();
+        InitAction();
+        index_gridview.setAdapter(adapter);
+    }
+
+    private void InitData() {
+        items.add(new IndexItemEntity(0, "http://image.binghai.site/data/f_54105524.jpg", "学校概况", ""));
+        items.add(new IndexItemEntity(1, "http://image.binghai.site/data/f_88994490.jpg", "今日订单", ""));
+        items.add(new IndexItemEntity(2, "http://image.binghai.site/data/f_70746987.jpg", "历史订单", ""));
+        items.add(new IndexItemEntity(3, "http://image.binghai.site/data/f_50885733.jpg", "待接订单", ""));
+        items.add(new IndexItemEntity(4, "http://image.binghai.site/data/f_98565668.jpg", "待取订单", ""));
+        items.add(new IndexItemEntity(5, "http://image.binghai.site/data/f_32694545.jpg", "订单配送", ""));
+        items.add(new IndexItemEntity(6, "http://image.binghai.site/data/f_77712378.jpg", "楼长交接", ""));
+        items.add(new IndexItemEntity(7, "http://image.binghai.site/data/f_26496006.jpg", "我的收入", ""));
+        items.add(new IndexItemEntity(8, "http://image.binghai.site/data/f_58421013.png", "切换学校", "change_school"));
+        items.add(new IndexItemEntity(9, "http://image.binghai.site/data/f_60742323.jpg", "历史消息", ""));
+        items.add(new IndexItemEntity(10, "http://image.binghai.site/data/f_19828166.jpg", "客服工单", ""));
+        items.add(new IndexItemEntity(11, "http://image.binghai.site/data/f_70531160.jpg", "代寄订单", ""));
+        items.add(new IndexItemEntity(12, "http://image.binghai.site/data/f_49205490.jpg", "充值订单", ""));
+        items.add(new IndexItemEntity(13, "http://image.binghai.site/data/f_68822331.jpg", "会员列表", ""));
+        items.add(new IndexItemEntity(14, "http://image.binghai.site/data/f_76805605.jpg", "系统设置", ""));
+        items.add(new IndexItemEntity(15, "http://image.binghai.site/data/f_22481877.jpg", "校园消息", ""));
+        items.add(new IndexItemEntity(16, "http://image.binghai.site/data/f_33462531.jpg", "工资清算", ""));
+        items.add(new IndexItemEntity(17, "http://image.binghai.site/data/f_66160222.png", "退出账户", "logout"));
+        /** 补足3的倍数*/
+        int mod = items.size() % 3;
+        if (mod > 0)
+            for (int i = 0; i < 3 - mod; i++) {
+                items.add(new IndexItemEntity(-1, null, "未启用", null));
+            }
+        adapter = new IndexItemAdapter(items, this);
+    }
+
+    private void InitAction() {
+        index_gridview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                onClickFunction(items.get(position).getFunction());
+            }
+        });
+    }
+
+    /**
+     * 根据function唤起不同的activity
+     */
+    private void onClickFunction(String function) {
+        if (function == null) {
+            Toast.makeText(this, "动作未启用", Toast.LENGTH_SHORT).show();
+        } else if (function.equals("logout")) {
+            new ToastUtil().warningAlert(this, "你确定退出当前账户?", new SingleCallBack() {
+                @Override
+                public void callback() {
+                    SharedPreferences sp = getSharedPreferences("userInfo", Context.MODE_PRIVATE);
+                    SharedPreferences.Editor editor = sp.edit();
+                    editor.putString("PHONE", "");
+                    editor.putString("PASSWORD", "");
+                    editor.commit();
+                    LoginActivity.user = null;
+                    startActivity(new Intent(MainActivity.this, LoginActivity.class));
+                }
+            });
+        } else if (function.equals("change_school")) {
+            startActivity(new Intent(MainActivity.this, ChangeSchool.class));
+        }
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if (LoginActivity.user == null)
+            startActivity(new Intent(MainActivity.this, LoginActivity.class));
+        else {
+            setTitle("小骨头综合调度-" + LoginActivity.user.getSchoolName());
+        }
+    }
+}

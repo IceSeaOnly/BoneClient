@@ -1,0 +1,102 @@
+package com.qdxiaogutou.boneclient.WebInterface;
+
+import android.app.Activity;
+import android.content.Context;
+import android.content.Intent;
+import android.graphics.Color;
+import android.net.Uri;
+import android.webkit.JavascriptInterface;
+import cn.pedant.SweetAlert.SweetAlertDialog;
+
+/**
+ * Created by Administrator on 2016/9/19.
+ */
+public class AndroidJavaScript {
+    private Context context;
+    private Activity activity;
+
+    public AndroidJavaScript(Activity a) {
+        activity = a;
+        context = a;
+    }
+
+    /**
+     * 拨打电话的方法
+     */
+    @JavascriptInterface
+    public void call(String num) {
+        Intent intent = new Intent();
+        intent.setAction(Intent.ACTION_CALL);
+        intent.setData(Uri.parse("tel:" + num));
+        context.startActivity(intent);
+    }
+
+    /**
+     * 关闭浏览器
+     */
+
+    @JavascriptInterface
+    public void finish() {
+        activity.finish();
+    }
+
+    /**
+     * 成功提示并关闭浏览器
+     */
+
+    @JavascriptInterface
+    public void finish_success(String msg) {
+        new SweetAlertDialog(context, SweetAlertDialog.SUCCESS_TYPE)
+                .setTitleText("完成")
+                .setContentText(msg)
+                .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                    @Override
+                    public void onClick(SweetAlertDialog sweetAlertDialog) {
+                        activity.finish();
+                    }
+                })
+                .show();
+    }
+
+    /**
+     * 成功错误并关闭浏览器
+     */
+
+    @JavascriptInterface
+    public void finish_error(String msg) {
+        new SweetAlertDialog(context, SweetAlertDialog.ERROR_TYPE)
+                .setTitleText("错误")
+                .setContentText(msg)
+                .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                    @Override
+                    public void onClick(SweetAlertDialog sweetAlertDialog) {
+                        activity.finish();
+                    }
+                })
+                .show();
+    }
+
+    /**
+     * 仅提示成功
+     * */
+    @JavascriptInterface
+    public void notice_success(String msg) {
+        new SweetAlertDialog(context, SweetAlertDialog.SUCCESS_TYPE)
+                .setTitleText("提示")
+                .setContentText(msg)
+                .show();
+    }
+
+    /**
+     * 仅提示错误
+     * */
+    @JavascriptInterface
+    public void notice_error(String msg) {
+        new SweetAlertDialog(context, SweetAlertDialog.ERROR_TYPE)
+                .setTitleText("提示")
+                .setContentText(msg)
+                .show();
+    }
+
+
+}

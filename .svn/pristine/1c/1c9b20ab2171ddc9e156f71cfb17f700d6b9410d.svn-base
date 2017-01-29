@@ -1,0 +1,77 @@
+package com.qdxiaogutou.boneclient.Activity;
+
+import android.content.Context;
+import android.content.SharedPreferences;
+import android.support.v7.app.AppCompatActivity;
+import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
+import android.widget.CheckBox;
+import android.widget.EditText;
+import com.qdxiaogutou.boneclient.Common.MD5;
+import com.qdxiaogutou.boneclient.Common.Process;
+import com.qdxiaogutou.boneclient.Common.ToastUtil;
+import com.qdxiaogutou.boneclient.Entity.UserEntity;
+import com.qdxiaogutou.boneclient.R;
+import java.util.Timer;
+import java.util.TimerTask;
+
+
+public class LoginActivity extends AppCompatActivity {
+
+    public static UserEntity user = null;
+    private EditText phone;
+    private EditText password;
+    private Button btnLogin;
+    private CheckBox checkbox;
+    private SharedPreferences sp;
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_login);
+
+        phone = (EditText) findViewById(R.id.phone);
+        password = (EditText) findViewById(R.id.password);
+        btnLogin = (Button) findViewById(R.id.btnLogin);
+        checkbox = (CheckBox) findViewById(R.id.checkBox);
+        sp = this.getSharedPreferences("userInfo", Context.MODE_PRIVATE);
+
+        btnLogin.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String ph = phone.getText().toString();
+                String pa = password.getText().toString();
+                if(ph.length() != 11 || pa.length() < 6){
+                    new ToastUtil().shortToast("输入不合法",LoginActivity.this);
+                }else
+                    doLogin(ph, MD5.encryption(pa));
+            }
+        });
+
+        String ph = sp.getString("PHONE","");
+        String pw = sp.getString("PASSWORD","");
+        if(ph.length() == 11 && pw.length() > 5)
+            doLogin(ph,pw);
+    }
+
+    private void doLogin(final String ph, final String encryption) {
+        Process.onProcessing(LoginActivity.this,"正在登录...",false);
+        TimerTask task = new TimerTask() {
+            @Override
+            public void run() {
+                if(checkbox.isChecked()){
+                    SharedPreferences.Editor editor = sp.edit();
+                    editor.putString("PHONE", ph);
+                    editor.putString("PASSWORD", encryption);
+                    editor.commit();
+                }
+                user = new UserEntity(0,"admin",ph,encryption,"");
+                finish();
+                Process.dismiss();
+            }
+        };
+        Timer timer = new Timer();
+        timer.schedule(task,2000L);
+    }
+}

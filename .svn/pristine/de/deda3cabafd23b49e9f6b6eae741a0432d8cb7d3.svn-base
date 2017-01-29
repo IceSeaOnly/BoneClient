@@ -1,0 +1,73 @@
+package com.qdxiaogutou.boneclient.Adapter;
+
+import android.app.Activity;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.BaseAdapter;
+import android.widget.ImageView;
+import android.widget.TextView;
+
+import com.bumptech.glide.Glide;
+import com.qdxiaogutou.boneclient.Entity.IndexItemEntity;
+import com.qdxiaogutou.boneclient.R;
+
+import java.util.List;
+
+/**
+ * Created by Administrator on 2016/12/2.
+ */
+public class IndexItemAdapter extends BaseAdapter {
+    private List<IndexItemEntity>items;
+    private Activity activity;
+    private LayoutInflater inflater;
+
+    public IndexItemAdapter(List<IndexItemEntity> items, Activity activity) {
+        this.items = items;
+        this.activity = activity;
+        inflater = LayoutInflater.from(activity);
+    }
+
+
+    @Override
+    public int getCount() {
+        return items.size();
+    }
+
+    @Override
+    public IndexItemEntity getItem(int position) {
+        return items.get(position);
+    }
+
+    @Override
+    public long getItemId(int position) {
+        return items.get(position).getId();
+    }
+
+    class VH{
+        ImageView image;
+        TextView name;
+    }
+    @Override
+    public View getView(int position, View convertView, ViewGroup parent) {
+        VH vh = null;
+        if(convertView == null){
+            vh = new VH();
+            convertView = inflater.inflate(R.layout.index_item,null);
+            vh.image = (ImageView) convertView.findViewById(R.id.ItemImage);
+            vh.name = (TextView) convertView.findViewById(R.id.ItemText);
+
+            convertView.setTag(vh);
+        }else{
+            vh = (VH) convertView.getTag();
+        }
+
+        vh.name.setText(getItem(position).getName());
+        Glide.with(activity)
+                .load(getItem(position).getImageUrl())
+                .centerCrop()
+                .placeholder(R.mipmap.default_button)
+                .into(vh.image);
+        return convertView;
+    }
+}

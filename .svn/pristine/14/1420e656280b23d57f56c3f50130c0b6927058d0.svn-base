@@ -1,0 +1,12 @@
+package com.qdxiaogutou.boneclient.Util;
+
+/**
+ * Created by Administrator on 2017/1/8.
+ */
+public class Config {
+    public static String base = "http://xiaogutou.qdxiaogutou.com/app/";
+    public static String login = "http://xiaogutou.qdxiaogutou.com/app-cgi/login.do";
+
+    public static String listFunction = base+"list_function.do";
+    public static String listSchool = base+"list_school.do";
+}

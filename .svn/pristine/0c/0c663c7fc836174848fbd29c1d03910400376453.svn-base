@@ -1,0 +1,52 @@
+package com.qdxiaogutou.boneclient.Activity;
+
+import android.app.Activity;
+import android.support.v7.app.AppCompatActivity;
+import android.os.Bundle;
+import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.ListView;
+
+import com.qdxiaogutou.boneclient.Adapter.SchoolItemAdapter;
+import com.qdxiaogutou.boneclient.Entity.SchoolEntity;
+import com.qdxiaogutou.boneclient.R;
+
+import java.util.ArrayList;
+
+public class ChangeSchool extends AppCompatActivity {
+
+    private ListView schoolList;
+    private ArrayList<SchoolEntity> schools;
+    private SchoolItemAdapter adapter;
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_change_school);
+        setTitle("变更学校");
+        schoolList = (ListView) findViewById(R.id.schoolList);
+        InitData();
+        InitAction();
+    }
+
+    private void InitAction() {
+        schoolList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                SchoolEntity e = schools.get(position);
+                LoginActivity.user.setSchoolId(e.getId());
+                LoginActivity.user.setSchoolName(e.getSchoolName());
+            }
+        });
+    }
+
+    private void InitData() {
+        schools = new ArrayList<>();
+        schools.add(new SchoolEntity(1,"山东科技大学","SDUST"));
+        schools.add(new SchoolEntity(2,"中国石油大学","UPC"));
+        schools.add(new SchoolEntity(3,"山东大学","SDU"));
+        adapter = new SchoolItemAdapter(schools,this);
+        schoolList.setAdapter(adapter);
+    }
+
+}

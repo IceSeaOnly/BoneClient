@@ -1,0 +1,63 @@
+package com.qdxiaogutou.boneclient.Entity;
+
+/**
+ * Created by Administrator on 2016/11/26.
+ */
+public class UserEntity {
+    int userid;
+    String identity;
+    String phone;
+    String passwordMd5;
+    String token;
+
+    public UserEntity(int userid, String identity, String phone, String passwordMd5, String token) {
+        this.userid = userid;
+        this.identity = identity;
+        this.phone = phone;
+        this.passwordMd5 = passwordMd5;
+        this.token = token;
+    }
+
+    public UserEntity() {
+    }
+
+    public int getUserid() {
+        return userid;
+    }
+
+    public void setUserid(int userid) {
+        this.userid = userid;
+    }
+
+    public String getIdentity() {
+        return identity;
+    }
+
+    public void setIdentity(String identity) {
+        this.identity = identity;
+    }
+
+    public String getPhone() {
+        return phone;
+    }
+
+    public void setPhone(String phone) {
+        this.phone = phone;
+    }
+
+    public String getPasswordMd5() {
+        return passwordMd5;
+    }
+
+    public void setPasswordMd5(String passwordMd5) {
+        this.passwordMd5 = passwordMd5;
+    }
+
+    public String getToken() {
+        return token;
+    }
+
+    public void setToken(String token) {
+        this.token = token;
+    }
+}

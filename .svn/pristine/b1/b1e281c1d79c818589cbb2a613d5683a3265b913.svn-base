@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<instant-run
+    abi="armeabi-v7a,armeabi"
+    api-level="19"
+    density="xxhdpi"
+    format="7"
+    timestamp="26105478635071" >
+
+    <task
+        name="javac"
+        duration="356" />
+    <task
+        name="instant-run-dex"
+        duration="0" />
+    <task
+        name="instant-run-transform"
+        duration="91" />
+    <task
+        name="verifier"
+        duration="8" />
+
+    <artifact
+        location="E:\AndroidStudioProjects\boneclient\app\build\outputs\apk\app-debug.apk"
+        type="MAIN" />
+
+    <build timestamp="56626928127809" >
+        <artifact
+            location="C:\Users\Administrator\Desktop\BoneClient\app\build\outputs\apk\app-debug.apk"
+            type="MAIN" />
+    </build>
+
+</instant-run>

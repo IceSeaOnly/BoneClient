@@ -1,0 +1,58 @@
+package com.qdxiaogutou.boneclient.Activity;
+
+import android.content.Intent;
+import android.support.v7.app.AppCompatActivity;
+import android.os.Bundle;
+import android.view.MotionEvent;
+import android.view.View;
+import android.webkit.WebView;
+import android.widget.GridView;
+import android.widget.TextView;
+
+import com.qdxiaogutou.boneclient.Adapter.IndexItemAdapter;
+import com.qdxiaogutou.boneclient.Entity.IndexItemEntity;
+import com.qdxiaogutou.boneclient.Login.LoginActivity;
+import com.qdxiaogutou.boneclient.R;
+
+import java.util.ArrayList;
+
+public class MainActivity extends AppCompatActivity {
+
+    private WebView weather_show;
+    private GridView index_gridview;
+    private TextView info;
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+        weather_show = (WebView) findViewById(R.id.weather_show);
+        index_gridview = (GridView) findViewById(R.id.index_gridview);
+        info = (TextView) findViewById(R.id.info);
+        weather_show.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                return false;
+            }
+        });
+        weather_show.loadUrl("http://i.tianqi.com/index.php?c=code&id=55");
+        ArrayList<IndexItemEntity>items = new ArrayList<>();
+        items.add(new IndexItemEntity(0,"http://118.192.140.147/data/f_15028991.png","功能1"));
+        items.add(new IndexItemEntity(1,"http://118.192.140.147/data/f_90708312.png","功能2"));
+        items.add(new IndexItemEntity(2,"http://118.192.140.147/data/f_76036071.png","功能3"));
+        items.add(new IndexItemEntity(3,"http://118.192.140.147/data/f_18077697.png","功能4"));
+        items.add(new IndexItemEntity(4,"http://118.192.140.147/data/f_99129333.png","功能5"));
+        items.add(new IndexItemEntity(5,"http://118.192.140.147/data/f_24718933.png","功能6"));
+        IndexItemAdapter adapter = new IndexItemAdapter(items,this);
+        index_gridview.setAdapter(adapter);
+
+        info.setText("新闻，也叫消息，是指通过报纸、电台、广播、电视台等媒体途径所传播信息的一种称谓。是记录社会、传播信息、反映时代的一种文体。新闻概念有广义与狭义之分，就其广义而言，除了发表于报刊、广播、互联网、电视上的评论与专文外的常用文本都属于新闻之列，包括消息、通讯、特写、速写（有的将速写纳入特写之列）等等，狭义的新闻则专指消息，消息是用概括的叙述方式，以较简明扼要的文字，迅速及时地报道国内外新近发生的、有价值的事实，让别人了解。每则新闻一般包括标题、导语、主体、背景和结语五部分。前三者是主要部分，后二者是辅助部分。写法上主要是叙述，有时兼有议论、描写、评论等。新闻是包含海量资讯的");
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if(LoginActivity.user == null)
+            startActivity(new Intent(MainActivity.this, LoginActivity.class));
+    }
+}

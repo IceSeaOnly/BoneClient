@@ -1,0 +1,83 @@
+package com.qdxiaogutou.boneclient.Entity;
+
+/**
+ * Created by Administrator on 2016/11/26.
+ */
+public class UserEntity {
+    int userid;
+    String identity;
+    String phone;
+    String passwordMd5;
+    String token;
+    int schoolId;
+    String schoolName;
+
+    public UserEntity(int userid,String identity,  String phone, String passwordMd5, String token, int schoolId, String schoolName) {
+        this.identity = identity;
+        this.userid = userid;
+        this.phone = phone;
+        this.passwordMd5 = passwordMd5;
+        this.token = token;
+        this.schoolId = schoolId;
+        this.schoolName = schoolName;
+    }
+
+    public UserEntity() {
+    }
+
+    public int getUserid() {
+        return userid;
+    }
+
+    public void setUserid(int userid) {
+        this.userid = userid;
+    }
+
+    public String getIdentity() {
+        return identity;
+    }
+
+    public void setIdentity(String identity) {
+        this.identity = identity;
+    }
+
+    public String getPhone() {
+        return phone;
+    }
+
+    public void setPhone(String phone) {
+        this.phone = phone;
+    }
+
+    public String getPasswordMd5() {
+        return passwordMd5;
+    }
+
+    public void setPasswordMd5(String passwordMd5) {
+        this.passwordMd5 = passwordMd5;
+    }
+
+    public String getToken() {
+        return token;
+    }
+
+    public void setToken(String token) {
+        this.token = token;
+    }
+
+    public int getSchoolId() {
+        return schoolId;
+    }
+
+    public void setSchoolId(int schoolId) {
+        this.schoolId = schoolId;
+    }
+
+    public String getSchoolName() {
+        return schoolName;
+    }
+
+    public void setSchoolName(String schoolName) {
+        this.schoolName = schoolName;
+    }
+}

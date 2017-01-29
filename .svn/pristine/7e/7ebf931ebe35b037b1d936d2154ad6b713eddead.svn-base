@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@color/white"
+    tools:context=".Activity.MainActivity">
+
+    <WebView
+        android:id="@+id/weather_show"
+        android:layout_width="match_parent"
+        android:layout_height="300px"></WebView>
+    <TextView
+        android:id="@+id/info"
+        android:textColor="@color/white"
+        android:text="\n\n\n  "
+        android:background="@mipmap/info"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+    <GridView
+        android:id="@+id/index_gridview"
+        android:numColumns="auto_fit"
+        android:columnWidth="110dp"
+        android:stretchMode="columnWidth"
+        android:gravity="center"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+    </GridView>
+</LinearLayout>

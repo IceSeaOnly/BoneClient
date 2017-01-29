@@ -1,0 +1,22 @@
+[
+    {
+        "merged": "E:\\AndroidStudioProjects\\boneclient\\app\\build\\intermediates\\res\\merged\\debug\\mipmap-hdpi-v4\\default_button.png",
+        "source": "E:\\AndroidStudioProjects\\boneclient\\app\\src\\main\\res\\mipmap-hdpi\\default_button.png"
+    },
+    {
+        "merged": "E:\\AndroidStudioProjects\\boneclient\\app\\build\\intermediates\\res\\merged\\debug\\mipmap-hdpi-v4\\logo.png",
+        "source": "E:\\AndroidStudioProjects\\boneclient\\app\\src\\main\\res\\mipmap-hdpi\\logo.png"
+    },
+    {
+        "merged": "C:\\Users\\Administrator\\Desktop\\BoneClient\\app\\build\\intermediates\\res\\merged\\debug\\mipmap-hdpi-v4\\ic_launcher.png",
+        "source": "C:\\Users\\Administrator\\Desktop\\BoneClient\\app\\src\\main\\res\\mipmap-hdpi\\ic_launcher.png"
+    },
+    {
+        "merged": "E:\\AndroidStudioProjects\\boneclient\\app\\build\\intermediates\\res\\merged\\debug\\mipmap-hdpi-v4\\info.png",
+        "source": "E:\\AndroidStudioProjects\\boneclient\\app\\src\\main\\res\\mipmap-hdpi\\info.png"
+    },
+    {
+        "merged": "E:\\AndroidStudioProjects\\boneclient\\app\\build\\intermediates\\res\\merged\\debug\\mipmap-hdpi-v4\\ic_launcher.png",
+        "source": "E:\\AndroidStudioProjects\\boneclient\\app\\src\\main\\res\\mipmap-hdpi\\ic_launcher.png"
+    }
+]
