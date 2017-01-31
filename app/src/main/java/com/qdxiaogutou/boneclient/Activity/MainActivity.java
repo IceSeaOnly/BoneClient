@@ -145,6 +145,7 @@ public class MainActivity extends AppCompatActivity {
                     editor.putString("PASSWORD", "");
                     editor.commit();
                     LoginActivity.manager = null;
+                    items = null;
                     startActivity(new Intent(MainActivity.this, LoginActivity.class));
                 }
             });

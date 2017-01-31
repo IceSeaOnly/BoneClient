@@ -70,7 +70,10 @@ public class WebActivity extends Activity {
 
             @Override
             public void loadUrl(String url) {
-                web_view.loadUrl(Config.base+url);
+                if(url.startsWith("http://") || url.startsWith("https://"))
+                    web_view.loadUrl(url);
+                else
+                    web_view.loadUrl(Config.base+url);
             }
         });
         web_view.addJavascriptInterface(aj, "icesea");
