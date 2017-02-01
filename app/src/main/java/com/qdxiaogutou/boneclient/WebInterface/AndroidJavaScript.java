@@ -9,11 +9,17 @@ import android.webkit.JavascriptInterface;
 
 import com.liang.scancode.CommonScanActivity;
 import com.liang.scancode.utils.Constant;
+import com.loopj.android.http.AsyncHttpResponseHandler;
+import com.loopj.android.http.JsonHttpResponseHandler;
+import com.loopj.android.http.RequestParams;
 import com.qdxiaogutou.boneclient.Activity.LoginActivity;
 import com.qdxiaogutou.boneclient.Activity.makeQrCode;
+import com.qdxiaogutou.boneclient.Util.Config;
+import com.qdxiaogutou.boneclient.Util.HttpUtil;
 import com.qdxiaogutou.boneclient.Util.util;
 
 import cn.pedant.SweetAlert.SweetAlertDialog;
+import cz.msebera.android.httpclient.Header;
 
 /**
  * Created by Administrator on 2016/9/19.
@@ -28,6 +34,8 @@ public class AndroidJavaScript {
     public interface JSCallBack {
         void reload(String oldToken);
         void loadUrl(String url);
+        void processing(String msg);
+        void processComplete(String msg);
     }
     public AndroidJavaScript(Activity a,JSCallBack callBack) {
         activity = a;
@@ -170,5 +178,33 @@ public class AndroidJavaScript {
                 .show();
     }
 
+    /**
+     * 调起支付页面
+     * */
+    @JavascriptInterface
+    public void start2pay(String passwd,
+                          Long orderid,
+                          int amount,
+                          String openid,
+                          String desc){
+        callBack.processing("正在支付...");
+        RequestParams p = new RequestParams();
+        p.put("passwd",passwd);
+        p.put("orderid",String.valueOf(orderid));
+        p.put("amount",amount);
+        p.put("openid",openid);
+        p.put("desc",desc);
+        HttpUtil.post(Config.payUrl, p, new AsyncHttpResponseHandler() {
+            @Override
+            public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
+                String msg = new String(responseBody);
+                callBack.processComplete(msg);
+            }
 
+            @Override
+            public void onFailure(int statusCode, Header[] headers, byte[] responseBody, Throwable error) {
+                callBack.processComplete("支付系统出现错误");
+            }
+        });
+    }
 }

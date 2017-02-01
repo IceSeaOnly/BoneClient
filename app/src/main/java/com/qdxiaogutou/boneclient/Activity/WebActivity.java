@@ -8,6 +8,8 @@ import android.view.View;
 import android.view.Window;
 import android.widget.ProgressBar;
 
+import com.qdxiaogutou.boneclient.Common.Process;
+import com.qdxiaogutou.boneclient.Common.ToastUtil;
 import com.qdxiaogutou.boneclient.Util.Config;
 import com.qdxiaogutou.boneclient.Util.util;
 import com.qdxiaogutou.boneclient.WebInterface.AndroidJavaScript;
@@ -74,6 +76,17 @@ public class WebActivity extends Activity {
                     web_view.loadUrl(url);
                 else
                     web_view.loadUrl(Config.base+url);
+            }
+
+            @Override
+            public void processing(String msg) {
+                Process.onProcessing(WebActivity.this,msg,true);
+            }
+
+            @Override
+            public void processComplete(String msg) {
+                Process.dismiss();
+                new ToastUtil().noticeAlert(WebActivity.this,msg);
             }
         });
         web_view.addJavascriptInterface(aj, "icesea");
