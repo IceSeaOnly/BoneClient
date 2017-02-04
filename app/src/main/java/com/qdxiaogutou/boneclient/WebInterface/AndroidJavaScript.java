@@ -18,6 +18,10 @@ import com.qdxiaogutou.boneclient.Util.Config;
 import com.qdxiaogutou.boneclient.Util.HttpUtil;
 import com.qdxiaogutou.boneclient.Util.util;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import cn.pedant.SweetAlert.SweetAlertDialog;
 import cz.msebera.android.httpclient.Header;
 
@@ -182,8 +186,9 @@ public class AndroidJavaScript {
      * 调起支付页面
      * */
     @JavascriptInterface
-    public void start2pay(String passwd,
-                          Long orderid,
+    public void start2pay(final String passwd,
+                          final String query_passwd,
+                          final Long orderid,
                           int amount,
                           String openid,
                           String desc){
@@ -198,12 +203,52 @@ public class AndroidJavaScript {
             @Override
             public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
                 String msg = new String(responseBody);
-                callBack.processComplete(msg);
+                queryPay(orderid,query_passwd);
             }
 
             @Override
             public void onFailure(int statusCode, Header[] headers, byte[] responseBody, Throwable error) {
                 callBack.processComplete("支付系统出现错误");
+            }
+        });
+    }
+
+    /**
+     * 触发支付工资是否完成查询任务
+     * */
+    public void queryPay(Long orderid,String passwd){
+        callBack.processing("正在支付...");
+        RequestParams p = new RequestParams();
+        p.put("passwd",passwd);
+        p.put("orderid",String.valueOf(orderid));
+        HttpUtil.post(Config.queryPayUrl, p, new JsonHttpResponseHandler(){
+            @Override
+            public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
+                super.onSuccess(statusCode, headers, response);
+                try {
+                    callBack.processComplete(response.getString("info"));
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                    callBack.processComplete("处理完成");
+                }
+            }
+
+            @Override
+            public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse) {
+                super.onFailure(statusCode, headers, throwable, errorResponse);
+                callBack.processComplete("处理完成，但消息未确认");
+            }
+
+            @Override
+            public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONArray errorResponse) {
+                super.onFailure(statusCode, headers, throwable, errorResponse);
+                callBack.processComplete("处理完成，但消息未确认");
+            }
+
+            @Override
+            public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
+                super.onFailure(statusCode, headers, responseString, throwable);
+                callBack.processComplete("处理完成，但消息未确认");
             }
         });
     }
