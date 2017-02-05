@@ -42,6 +42,9 @@ public class WebActivity extends Activity {
         String url = util.REPLACE_URL(getIntent().getStringExtra("url"));
         InitWebView();
         InitClient();
+        //检查是否是耗时操作
+        if(url.contains("NEEDTIME=TRUE"))
+            Process.onProcessing(this,"耗时操作，请等待...",false);
         //加载远程网页
         if (null != savedInstanceState) {
             web_view.restoreState(savedInstanceState);
@@ -80,7 +83,7 @@ public class WebActivity extends Activity {
 
             @Override
             public void processing(String msg) {
-                Process.onProcessing(WebActivity.this,msg,true);
+                Process.onProcessing(WebActivity.this,msg,false);
             }
 
             @Override
@@ -92,7 +95,7 @@ public class WebActivity extends Activity {
         web_view.addJavascriptInterface(aj, "icesea");
     }
 
-    private boolean web_err = false;
+
     private void fetchOfflineResources() {
         AssetManager am = getAssets();
         try {
@@ -142,6 +145,7 @@ public class WebActivity extends Activity {
 
                 if(newProgress==100){
                     pg1.setVisibility(View.GONE);//加载完网页进度条消失
+                    Process.dismiss();
                 }
                 else{
                     pg1.setVisibility(View.VISIBLE);//开始加载网页时显示进度条

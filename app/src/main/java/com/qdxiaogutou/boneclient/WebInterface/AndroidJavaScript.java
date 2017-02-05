@@ -186,69 +186,40 @@ public class AndroidJavaScript {
      * 调起支付页面
      * */
     @JavascriptInterface
-    public void start2pay(final String passwd,
-                          final String query_passwd,
-                          final Long orderid,
-                          int amount,
-                          String openid,
-                          String desc){
+    public void start2pay(int orderid){
         callBack.processing("正在支付...");
         RequestParams p = new RequestParams();
-        p.put("passwd",passwd);
-        p.put("orderid",String.valueOf(orderid));
-        p.put("amount",amount);
-        p.put("openid",openid);
-        p.put("desc",desc);
-        HttpUtil.post(Config.payUrl, p, new AsyncHttpResponseHandler() {
-            @Override
-            public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
-                String msg = new String(responseBody);
-                queryPay(orderid,query_passwd);
-            }
-
-            @Override
-            public void onFailure(int statusCode, Header[] headers, byte[] responseBody, Throwable error) {
-                callBack.processComplete("支付系统出现错误");
-            }
-        });
-    }
-
-    /**
-     * 触发支付工资是否完成查询任务
-     * */
-    public void queryPay(Long orderid,String passwd){
-        callBack.processing("正在支付...");
-        RequestParams p = new RequestParams();
-        p.put("passwd",passwd);
-        p.put("orderid",String.valueOf(orderid));
-        HttpUtil.post(Config.queryPayUrl, p, new JsonHttpResponseHandler(){
+        p.put("orderId",orderid);
+        p.put("managerId",LoginActivity.manager.getId());
+        p.put("token",LoginActivity.manager.getTmp_token());
+        HttpUtil.get(Config.payUrl, p,new JsonHttpResponseHandler(){
             @Override
             public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
                 super.onSuccess(statusCode, headers, response);
                 try {
-                    callBack.processComplete(response.getString("info"));
+                    Log.e("PayError",response.getString("result"));
+                    callBack.processComplete(response.getString("result"));
                 } catch (JSONException e) {
-                    e.printStackTrace();
-                    callBack.processComplete("处理完成");
+                    callBack.processComplete(response.toString());
                 }
             }
 
             @Override
             public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse) {
                 super.onFailure(statusCode, headers, throwable, errorResponse);
-                callBack.processComplete("处理完成，但消息未确认");
+                callBack.processComplete("支付系统出现问题");
             }
 
             @Override
             public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONArray errorResponse) {
                 super.onFailure(statusCode, headers, throwable, errorResponse);
-                callBack.processComplete("处理完成，但消息未确认");
+                callBack.processComplete("支付系统出现问题");
             }
 
             @Override
             public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
                 super.onFailure(statusCode, headers, responseString, throwable);
-                callBack.processComplete("处理完成，但消息未确认");
+                callBack.processComplete("支付系统出现问题");
             }
         });
     }
