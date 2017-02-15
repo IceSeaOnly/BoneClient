@@ -1,6 +1,7 @@
 package com.qdxiaogutou.boneclient.Activity;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -67,7 +68,9 @@ public class LoginActivity extends AppCompatActivity {
         reset_pass.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                new ToastUtil().noticeAlert(LoginActivity.this,"重置密码请短信系统运维[冰海],附上你的手机号和姓名");
+                Intent intent = new Intent(LoginActivity.this,WebActivity.class);
+                intent.putExtra("url","http://xiaogutou.qdxiaogutou.com/forgotpass.html");
+                startActivity(intent);
             }
         });
         String ph = sp.getString("PHONE","");
