@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
+import android.text.ClipboardManager;
 import android.util.Log;
 import android.webkit.JavascriptInterface;
 
@@ -181,6 +182,16 @@ public class AndroidJavaScript {
                 .setContentText(msg)
                 .show();
     }
+
+    /**
+     * 复制内容到剪贴板
+     * */
+    @JavascriptInterface
+    public void copy2clipboard(String content) {
+        ClipboardManager cm = (ClipboardManager)activity.getSystemService(Context.CLIPBOARD_SERVICE);
+        cm.setText(content);
+    }
+
 
     /**
      * 调起支付页面
