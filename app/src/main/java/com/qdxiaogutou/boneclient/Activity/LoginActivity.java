@@ -8,6 +8,8 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
+import android.widget.TextClock;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.loopj.android.http.JsonHttpResponseHandler;
@@ -34,6 +36,7 @@ public class LoginActivity extends AppCompatActivity {
     private EditText phone;
     private EditText password;
     private Button btnLogin;
+    private TextView reset_pass;
     private CheckBox checkbox;
     private SharedPreferences sp;
 
@@ -42,6 +45,7 @@ public class LoginActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
+        reset_pass = (TextView) findViewById(R.id.pass_reset);
         phone = (EditText) findViewById(R.id.phone);
         password = (EditText) findViewById(R.id.password);
         btnLogin = (Button) findViewById(R.id.btnLogin);
@@ -60,6 +64,12 @@ public class LoginActivity extends AppCompatActivity {
             }
         });
 
+        reset_pass.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                new ToastUtil().noticeAlert(LoginActivity.this,"重置密码请短信系统运维[冰海],附上你的手机号和姓名");
+            }
+        });
         String ph = sp.getString("PHONE","");
         String pw = sp.getString("PASSWORD","");
         if(ph.length() == 11 && pw.length() > 5)

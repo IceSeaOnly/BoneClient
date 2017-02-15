@@ -75,7 +75,7 @@ public class WebActivity extends Activity {
 
             @Override
             public void loadUrl(String url) {
-                if(url.startsWith("http://") || url.startsWith("https://"))
+                if(url.startsWith("http://") || url.startsWith("https://") || url.startsWith("javascript:"))
                     web_view.loadUrl(url);
                 else
                     web_view.loadUrl(Config.base+url);
