@@ -39,7 +39,8 @@ public class WebActivity extends Activity {
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.activity_web);
         fetchOfflineResources();
-        String url = util.REPLACE_URL(getIntent().getStringExtra("url"));
+        String ori = getIntent().getStringExtra("url");
+        String url = ori.startsWith("javascript")?ori:util.REPLACE_URL(ori);
         InitWebView();
         InitClient();
         //检查是否是耗时操作

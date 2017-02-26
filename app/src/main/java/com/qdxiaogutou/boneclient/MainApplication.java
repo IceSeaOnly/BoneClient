@@ -3,6 +3,8 @@ package com.qdxiaogutou.boneclient;
 import android.app.Application;
 import android.util.Log;
 
+import com.tencent.bugly.Bugly;
+import com.tencent.bugly.crashreport.CrashReport;
 import com.tencent.smtt.sdk.QbSdk;
 import com.tencent.smtt.sdk.TbsListener;
 
@@ -13,6 +15,8 @@ public class MainApplication extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
+        Bugly.init(getApplicationContext(), "3cc46a4f51", false);
+        CrashReport.initCrashReport(getApplicationContext(), "3cc46a4f51", false);
         initX5Browse();
     }
     private void initX5Browse() {

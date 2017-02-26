@@ -1,16 +1,19 @@
 package com.qdxiaogutou.boneclient.WebInterface;
 
 import android.app.Activity;
+import android.content.ClipData;
+import android.content.ClipboardManager;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
-import android.text.ClipboardManager;
+
 import android.util.Log;
 import android.webkit.JavascriptInterface;
 
+
 import com.liang.scancode.CommonScanActivity;
 import com.liang.scancode.utils.Constant;
-import com.loopj.android.http.AsyncHttpResponseHandler;
+
 import com.loopj.android.http.JsonHttpResponseHandler;
 import com.loopj.android.http.RequestParams;
 import com.qdxiaogutou.boneclient.Activity.LoginActivity;
@@ -189,7 +192,7 @@ public class AndroidJavaScript {
     @JavascriptInterface
     public void copy2clipboard(String content) {
         ClipboardManager cm = (ClipboardManager)activity.getSystemService(Context.CLIPBOARD_SERVICE);
-        cm.setText(content);
+        cm.setPrimaryClip(ClipData.newPlainText("bone_client_url", content));
     }
 
 

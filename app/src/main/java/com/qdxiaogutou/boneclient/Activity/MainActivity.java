@@ -8,7 +8,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
-import android.webkit.WebView;
+
 import android.widget.AdapterView;
 import android.widget.GridView;
 import android.widget.Toast;
@@ -25,6 +25,7 @@ import com.qdxiaogutou.boneclient.Entity.IndexItemEntity;
 import com.qdxiaogutou.boneclient.R;
 import com.qdxiaogutou.boneclient.Util.Config;
 import com.qdxiaogutou.boneclient.Util.HttpUtil;
+import com.tencent.smtt.sdk.WebView;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -53,7 +54,7 @@ public class MainActivity extends AppCompatActivity {
                 return false;
             }
         });
-        weather_show.loadUrl("http://i.tianqi.com/index.php?c=code&id=55");
+        weather_show.loadUrl("http://weixin.qdxiaogutou.com/header.php");
         InitAction();
     }
 
