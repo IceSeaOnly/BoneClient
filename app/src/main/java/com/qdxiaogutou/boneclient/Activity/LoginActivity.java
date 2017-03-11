@@ -101,7 +101,6 @@ public class LoginActivity extends AppCompatActivity {
                     new ToastUtil().errorAlert(LoginActivity.this,"登录失败，请检查用户名/密码，也可能该账号暂时无法使用");
                 }else{
                     manager = data.getObject("entity",Manager.class);
-                    Toast.makeText(LoginActivity.this,"欢迎登录"+manager.getName(),Toast.LENGTH_SHORT);
                     finish();
                 }
             }

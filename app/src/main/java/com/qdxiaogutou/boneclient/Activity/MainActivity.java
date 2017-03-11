@@ -71,7 +71,6 @@ public class MainActivity extends AppCompatActivity {
                 Process.dismiss();
                 com.alibaba.fastjson.JSONObject data = com.alibaba.fastjson.JSONObject.parseObject(response.toString());
                 items = (ArrayList<IndexItemEntity>) com.alibaba.fastjson.JSONObject.parseArray(data.getString("entity"),IndexItemEntity.class);
-                LoginActivity.manager.setTmp_token(data.getString("token"));
                 completeFunctionList();
             }
 
