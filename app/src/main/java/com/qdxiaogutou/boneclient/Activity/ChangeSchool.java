@@ -57,7 +57,6 @@ public class ChangeSchool extends AppCompatActivity {
             public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
                 super.onSuccess(statusCode, headers, response);
                 com.alibaba.fastjson.JSONObject data = com.alibaba.fastjson.JSONObject.parseObject(response.toString());
-                LoginActivity.manager.setTmp_token(data.getString("token"));
                 schools = (ArrayList<School>) com.alibaba.fastjson.JSONObject.parseArray(data.getString("entity"),School.class);
                 adapter = new SchoolItemAdapter(schools,ChangeSchool.this);
                 schoolList.setAdapter(adapter);

@@ -13,6 +13,8 @@ import android.widget.AdapterView;
 import android.widget.GridView;
 import android.widget.Toast;
 
+import com.alibaba.sdk.android.push.CommonCallback;
+import com.alibaba.sdk.android.push.noonesdk.PushServiceFactory;
 import com.liang.scancode.CommonScanActivity;
 import com.liang.scancode.utils.Constant;
 import com.loopj.android.http.JsonHttpResponseHandler;
@@ -146,6 +148,7 @@ public class MainActivity extends AppCompatActivity {
                     editor.commit();
                     LoginActivity.manager = null;
                     items = null;
+                    PushServiceFactory.getCloudPushService().unbindAccount(new CommonCallback() {@Override public void onSuccess(String s) {}@Override public void onFailed(String s, String s1) {}});
                     startActivity(new Intent(MainActivity.this, LoginActivity.class));
                 }
             });

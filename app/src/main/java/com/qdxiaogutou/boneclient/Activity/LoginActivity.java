@@ -13,6 +13,8 @@ import android.widget.TextClock;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.alibaba.sdk.android.push.CommonCallback;
+import com.alibaba.sdk.android.push.noonesdk.PushServiceFactory;
 import com.loopj.android.http.JsonHttpResponseHandler;
 import com.loopj.android.http.RequestParams;
 import com.qdxiaogutou.boneclient.Common.MD5;
@@ -20,6 +22,7 @@ import com.qdxiaogutou.boneclient.Common.Process;
 import com.qdxiaogutou.boneclient.Common.ToastUtil;
 import com.qdxiaogutou.boneclient.Entity.Manager;
 
+import com.qdxiaogutou.boneclient.MainApplication;
 import com.qdxiaogutou.boneclient.R;
 import com.qdxiaogutou.boneclient.Util.Config;
 import com.qdxiaogutou.boneclient.Util.HttpUtil;
@@ -101,7 +104,16 @@ public class LoginActivity extends AppCompatActivity {
                     new ToastUtil().errorAlert(LoginActivity.this,"登录失败，请检查用户名/密码，也可能该账号暂时无法使用");
                 }else{
                     manager = data.getObject("entity",Manager.class);
-                    finish();
+                    MainApplication.pushService.bindAccount(manager.getPhone(), new CommonCallback() {
+                        @Override
+                        public void onSuccess(String s) {finish();}
+                        @Override
+                        public void onFailed(String s, String s1) {
+                            Toast.makeText(LoginActivity.this,"推送通道开启失败,请重启应用尝试修复",Toast.LENGTH_SHORT).show();
+                            finish();
+                        }
+                    });
+
                 }
             }
 
